@@ -13,11 +13,11 @@ class DesktopMenu extends CComponent
 {
 	protected $_oDesktop = NULL;
 	protected $_aItems   = array();
-	protected $_sName    = NULL;
+	protected $_sTitle   = NULL;
 
-	public function __construct($sTitle)
+	public function __construct($sTitle = NULL)
 	{
-		$this->_sName = $sTitle;
+		$this->title = $sTitle;
 	}
 
 	public function addItem(DesktopMenuItem $oItem)
@@ -28,11 +28,8 @@ class DesktopMenu extends CComponent
 
 	public function addFromShortCut(DesktopShortCut $oShortCut)
 	{
-		$oItem = new DesktopMenuItem($oShortCut->name, $oShortCut->id);
-
-		foreach (array('icon') as $sProperty)
-			$oItem->$sProperty = $oShortCut->$sProperty;
-
+		// Don't bother copying the route as it will point to the window of the shortcut, which already contains it
+		$oItem = new DesktopMenuItem($oShortCut->name, $oShortCut->id, $oShortCut->icon);
 		$this->addItem($oItem);
 	}
 
@@ -43,20 +40,14 @@ class DesktopMenu extends CComponent
 			$oItem->desktop = $oDesktop;
 	}
 
-	public function getName()
-	{
-		return $this->_sName;
-	}
-
-	public function getItems()
-	{
-		return $this->_aItems;
-	}
+	public function setTitle($sTitle)   { $this->_sTitle = $sTitle; }
+	public function getTitle()          { return $this->_sTitle; }
+	public function getItems()          { return $this->_aItems; }
 
 	public function render()
 	{
 		$sResult = CHtml::openTag('li') .
-			CHtml::link($this->name, '#', array('class' => 'menu_trigger')) .
+			CHtml::link($this->title, '#', array('class' => 'menu_trigger')) .
 			CHtml::openTag('ul', array('class' => 'menu'));
 
 		foreach ($this->_aItems as $oItem)

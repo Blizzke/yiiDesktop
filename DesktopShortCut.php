@@ -1,13 +1,11 @@
 <?php
 /**
- *
+ * Class for a desktop icon (shortcut)
  *
  * @author    Steve Guns <steve@bedezign.com>
- * @package   com.bedezign.9maand.com
- * @category
+ * @package   com.bedezign
  * @copyright 2013 B&E DeZign
  */
-
 
 class DesktopShortCut extends DesktopApplication
 {
@@ -31,7 +29,7 @@ class DesktopShortCut extends DesktopApplication
 			'style' => "left: {$this->x}px; top: {$this->y}px",
 		);
 
-		return CHtml::link(CHtml::image($this->_sIcon, $this->_sName, array('height' => '32px')) . $this->_sName, '#icon_dock_' . $this->_sId, $aOptions);
+		return CHtml::link(CHtml::image($this->icon, $this->title, array('height' => '32px')) . $this->title, '#icon_dock_' . $this->id, $aOptions);
 	}
 
 }

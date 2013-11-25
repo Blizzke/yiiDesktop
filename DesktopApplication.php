@@ -1,27 +1,26 @@
 <?php
 /**
- *
+ * Base class for an "application". This is a fancy way of saying "some stuff that can load within an IFrame"
  *
  * @author    Steve Guns <steve@bedezign.com>
- * @package   com.bedezign.9maand.com
- * @category
+ * @package   com.bedezign
  * @copyright 2013 B&E DeZign
  */
-
 
 class DesktopApplication extends CComponent
 {
 	protected $_oDesktop    = NULL;
-	protected $_sName       = NULL;
+	protected $_sTitle      = NULL;
 	protected $_sId         = NULL;
 	protected $_sIcon       = NULL;
 	protected $_sRoute      = NULL;
 	protected $_aParameters = array();
 
-	public function __construct($sTitle, $sId = FALSE)
+	public function __construct($sTitle = NULL, $sId = NULL, $sIcon = NULL)
 	{
-		$this->_sName = $sTitle;
-		$this->_sId = $sId;
+		$this->title = $sTitle;
+		$this->id    = $sId;
+		$this->icon  = $sIcon;
 	}
 
 	public function setDesktop(Desktop $oDesktop)
@@ -39,8 +38,8 @@ class DesktopApplication extends CComponent
 	public function getIcon()           { return $this->_sIcon; }
 	public function setId($sId)         { $this->_sId = $sId; }
 	public function getId()             { return $this->_sId; }
-	public function setName($sName)     { $this->_sName = $sName; }
-	public function getName()           { return $this->_sName; }
+	public function setTitle($sTitle)   { $this->_sTitle = $sTitle; }
+	public function getTitle()          { return $this->_sTitle; }
 
 	/**
 	 * Returns a "rendered" application window. We need to make one of these for every application (including menu items).
@@ -56,13 +55,13 @@ class DesktopApplication extends CComponent
 				CHtml::tag('div', array('class' => 'abs window_inner'),
 					CHtml::tag('div', array('class' => 'window_top'),
 						CHtml::tag('span', array('class' => 'float_left'),
-							($this->_sIcon ? CHtml::image($this->_sIcon, $this->_sName, array('height' => '16px')) . ' ' : '') .
-							$this->_sName
+							($this->icon ? CHtml::image($this->icon, $this->title, array('height' => '16px')) . ' ' : '') .
+							$this->title
 						) .
 						CHtml::tag('span', array('class' => 'float_right'),
 							CHtml::link('', '#', array('class' => 'window_min')) .
 							CHtml::link('', '#', array('class' => 'window_resize')) .
-							CHtml::link('', '#icon_dock_' . $this->_sId, array('class' => 'window_close'))
+							CHtml::link('', '#icon_dock_' . $this->id, array('class' => 'window_close'))
 						)
 					) .
 
@@ -85,7 +84,7 @@ class DesktopApplication extends CComponent
 	{
 		// We specify this URL as data-url for the iframe.
 		$sUrl = Yii::app()->controller->createUrl($this->_sRoute, $this->_aParameters);
-		return CHtml::tag('iframe', array('name' => 'frame_' . $this->_sId, 'scrolling' => 'auto', 'class' => 'frame_frame', 'data-url' => $sUrl), '');
+		return CHtml::tag('iframe', array('name' => 'frame_' . $this->id, 'scrolling' => 'auto', 'class' => 'frame_frame', 'data-url' => $sUrl), '');
 	}
 
 	/**
@@ -96,6 +95,6 @@ class DesktopApplication extends CComponent
 	 */
 	public function renderDock()
 	{
-		return CHtml::tag('li', array('id' => 'icon_dock_' . $this->id), CHtml::link(CHtml::image($this->_sIcon, '', array('height' => '22px')) . $this->_sName, '#window_' . $this->id));
+		return CHtml::tag('li', array('id' => 'icon_dock_' . $this->id), CHtml::link(CHtml::image($this->icon, '', array('height' => '22px')) . $this->title, '#window_' . $this->id));
 	}
 }

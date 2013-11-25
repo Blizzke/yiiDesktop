@@ -157,6 +157,7 @@ class Desktop extends CWidget
 
 			// Keep track of which windows still left to render
 			foreach ($oMenu->items as $oItem)
+				// If no identical id'ed window was rendered yet, render it
 				if (!isset($this->_aRenderedWindows[$oItem->id]) || !$this->_aRenderedWindows[$oItem->id])
 				{
 					$sApplicationWindows .= $oItem->renderWindow();
@@ -166,7 +167,7 @@ class Desktop extends CWidget
 
 		echo CHtml::closeTag('ul'), CHtml::closeTag('div');
 
-		// Also output the remainder of the windows
+		// Also output the remainder of the application windows
 		echo $sApplicationWindows;
 	}
 
