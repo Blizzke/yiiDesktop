@@ -29,7 +29,7 @@ class DesktopMenu extends CComponent
 	public function addFromShortCut(DesktopShortCut $oShortCut)
 	{
 		// Don't bother copying the route as it will point to the window of the shortcut, which already contains it
-		$oItem = new DesktopMenuItem($oShortCut->name, $oShortCut->id, $oShortCut->icon);
+		$oItem = new DesktopMenuItem($oShortCut->title, $oShortCut->id, $oShortCut->icon);
 		$this->addItem($oItem);
 	}
 
