@@ -1,13 +1,11 @@
 <?php
 /**
- *
+ * Main menu
  *
  * @author    Steve Guns <steve@bedezign.com>
- * @package   com.bedezign.9maand.com
- * @category
+ * @package   com.bedezign
  * @copyright 2013 B&E DeZign
  */
-
 
 class DesktopMenu extends CComponent
 {
